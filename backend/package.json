@@ -1,0 +1,19 @@
+{
+  "name": "pauseflow-backend",
+  "version": "1.0.0",
+  "description": "Backend para PauseFlow con PostgreSQL y cifrado de datos sensibles",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.0",
+    "dotenv": "^16.4.1",
+    "express": "^4.21.1",
+    "pg": "^8.5.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}
