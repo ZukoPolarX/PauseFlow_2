@@ -2,10 +2,12 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+// Punto de entrada de la aplicación Flutter.
 void main() {
   runApp(const PauseFlowApp());
 }
 
+// Widget principal que define el tema y la pantalla inicial.
 class PauseFlowApp extends StatelessWidget {
   const PauseFlowApp({super.key});
 
@@ -23,6 +25,7 @@ class PauseFlowApp extends StatelessWidget {
   }
 }
 
+// Pantalla principal con el formulario de configuración.
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -30,6 +33,7 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
+// Estado de la pantalla principal donde se guardan los valores del formulario.
 class _HomeScreenState extends State<HomeScreen> {
   final _formKey = GlobalKey<FormState>();
   final _fullNameController = TextEditingController(text: 'Ana García');
@@ -44,6 +48,10 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _isLoading = false;
   String _message = '';
 
+  // Dirección base del backend para enviar los datos.
+  static const String backendUrl = 'http://localhost:3000';
+
+  // Enviar los datos del formulario al backend.
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
 
@@ -52,6 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
       _message = '';
     });
 
+    // Crear el cuerpo de la petición con los datos del usuario.
     final payload = {
       'fullName': _fullNameController.text,
       'email': _emailController.text,
@@ -64,13 +73,14 @@ class _HomeScreenState extends State<HomeScreen> {
     };
 
     try {
+      // Enviar POST al endpoint /api/users.
       final response = await http.post(
-        Uri.parse('http://10.0.2.2:3000/api/users'),
+        Uri.parse('$backendUrl/api/users'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(payload),
       );
 
-      if (response.statusCode == 201) {
+      if (response.statusCode == 201 || response.statusCode == 200) {
         setState(() {
           _message = 'Configuración guardada correctamente en PostgreSQL';
         });
@@ -212,6 +222,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 onChanged: (value) => setState(() => stretchReminder = value.round()),
               ),
               const SizedBox(height: 24),
+              // Botón para guardar la configuración en el backend.
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton.icon(
@@ -227,6 +238,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               const SizedBox(height: 16),
+              // Mostrar mensajes de éxito o error tras intentar guardar.
               if (_message.isNotEmpty)
                 Container(
                   padding: const EdgeInsets.all(12),

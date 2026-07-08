@@ -8,7 +8,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
-      - '5432:5432'
+      - '5433:5432'
     volumes:
       - pgdata:/var/lib/postgresql/data
 
@@ -16,12 +16,16 @@ services:
     image: dpage/pgadmin4:8
     container_name: pauseflow-pgadmin
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@pauseflow.local
+      PGADMIN_DEFAULT_EMAIL: admin@pauseflow.com
       PGADMIN_DEFAULT_PASSWORD: admin123
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
     ports:
       - '5050:80'
     depends_on:
       - postgres
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
 
 volumes:
   pgdata:
+  pgadmin-data:

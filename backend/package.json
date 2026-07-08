@@ -17,3 +17,10 @@
     "nodemon": "^3.1.0"
   }
 }
+
+// Comentario de configuración:
+// - cors: permite que el frontend pueda consumir la API desde otro origen.
+// - dotenv: carga las variables de entorno desde el archivo .env.
+// - express: crea el servidor web y define los endpoints.
+// - pg: permite conectarse a PostgreSQL desde Node.js.
+// - nodemon: reinicia el servidor automáticamente al hacer cambios.
