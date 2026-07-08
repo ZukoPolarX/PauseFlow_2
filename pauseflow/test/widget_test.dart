@@ -9,10 +9,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pauseflow/main.dart';
 
 void main() {
-  testWidgets('PauseFlow renders its main form', (WidgetTester tester) async {
+  testWidgets('PauseFlow renders its main form and summary', (WidgetTester tester) async {
     await tester.pumpWidget(const PauseFlowApp());
 
     expect(find.text('PauseFlow'), findsWidgets);
     expect(find.text('Descanso, hidratación y estiramiento inteligentes'), findsOneWidget);
+    expect(find.text('Resumen de pausa'), findsOneWidget);
   });
 }

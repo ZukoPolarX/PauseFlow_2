@@ -31,14 +31,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // Controladores del formulario para capturar la configuración del usuario.
   final _formKey = GlobalKey<FormState>();
   final _fullNameController = TextEditingController(text: 'Ana García');
   final _emailController = TextEditingController(text: 'ana@example.com');
   final _phoneController = TextEditingController(text: '5551234567');
   final _passwordController = TextEditingController(text: 'secreta123');
 
-  // Parámetros de recordatorios configurables por el usuario.
   int hydrationGoal = 8;
   int breakInterval = 45;
   int hydrationReminder = 20;
@@ -46,7 +44,6 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _isLoading = false;
   String _message = '';
 
-  // Envía la configuración del usuario al backend para guardarla en PostgreSQL.
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
 
@@ -95,6 +92,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final summaryCards = [
+      {'label': 'Descanso', 'value': '$breakInterval min'},
+      {'label': 'Hidratación', 'value': '$hydrationGoal vasos'},
+      {'label': 'Estiramiento', 'value': '$stretchReminder min'},
+    ];
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('PauseFlow'),
@@ -116,6 +119,31 @@ class _HomeScreenState extends State<HomeScreen> {
               const Text(
                 'Configura tus recordatorios y guarda tus datos de forma segura.',
                 style: TextStyle(fontSize: 15, color: Colors.black54),
+              ),
+              const SizedBox(height: 16),
+              const Text('Resumen de pausa', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+              const SizedBox(height: 8),
+              Wrap(
+                spacing: 10,
+                runSpacing: 10,
+                children: summaryCards.map((item) {
+                  return SizedBox(
+                    width: 150,
+                    child: Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(item['label']!, style: const TextStyle(fontWeight: FontWeight.w600)),
+                            const SizedBox(height: 4),
+                            Text(item['value']!),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                }).toList(),
               ),
               const SizedBox(height: 20),
               TextFormField(
